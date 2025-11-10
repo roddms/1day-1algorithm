@@ -1,16 +1,20 @@
+from collections import deque
+
 def solution(numbers, target):
     answer = 0
     
-    def dfs(index, cur):
-        nonlocal answer
-        if index == len(numbers):
+    q = deque
+    q = deque([(0, 0)]) # 인덱스, 현재까지의 합
+    
+    while q:
+        idx, cur = q.popleft()
+        
+        if idx == len(numbers):
             if cur == target:
                 answer += 1
-            return
+            continue
         
-        dfs(index + 1, cur + numbers[index])
-        dfs(index + 1, cur - numbers[index])
-        
+        q.append((idx+1, cur+numbers[idx]))
+        q.append((idx+1, cur-numbers[idx]))            
     
-    dfs(0,0)    
     return answer
