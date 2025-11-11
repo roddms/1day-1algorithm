@@ -1,17 +1,23 @@
+from collections import deque
+
 def solution(n, computers):
     ans = 0
-    visited = [False for _ in range(n)]
-    
-    def dfs(cur):
-        visited[cur] = True
+    visited = [False] * n
+
+    for start in range(n):
+        if visited[start] == True:
+            continue
+            
+        ans += 1
+        visited[start] = True
         
-        for nxt in range(n):
-            if computers[cur][nxt] and not visited[nxt]:
-                dfs(nxt)
-                
-    for i in range(n):
-        if not visited[i]:
-            dfs(i)
-            ans += 1
+        q = deque([start])
+        
+        while q:
+            cur = q.popleft()
+            for nxt in range(n):
+                if computers[cur][nxt]==1 and visited[nxt]==False:
+                    visited[nxt] = True
+                    q.append(nxt)
     
     return ans
